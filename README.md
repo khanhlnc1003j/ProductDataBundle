@@ -2,4 +2,4 @@
 
 add "Starfruit\\\ProductDataBundle\\\\": "path/ProductDataBundle" to composer.json autoload.psr-4
 
-add config.yaml : pimcore.bundles.search_paths: - starfruit/ProductDataBundle
+add config/config.yaml : pimcore.bundles.search_paths: - starfruit/ProductDataBundle
