@@ -1,8 +1,8 @@
 {
-    "id": "sf_prd",
+    "id": "sf_cate",
     "description": "",
-    "modificationDate": 1622620750,
-    "parentClass": "Starfruit\\ProductDataBundle\\Model\\AbstractProduct",
+    "modificationDate": 1622620744,
+    "parentClass": "Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractCategory",
     "implementsInterfaces": "",
     "listingParentClass": "",
     "useTraits": "",
@@ -77,36 +77,6 @@
                                 "permissions": null,
                                 "datatype": "data",
                                 "relationType": false,
-                                "invisible": false,
-                                "visibleGridView": false,
-                                "visibleSearch": false
-                            },
-                            {
-                                "fieldtype": "manyToManyObjectRelation",
-                                "width": "",
-                                "height": "",
-                                "maxItems": "",
-                                "relationType": true,
-                                "visibleFields": "id,fullpath,name",
-                                "allowToCreateNewObject": false,
-                                "optimizedAdminLoading": false,
-                                "visibleFieldDefinitions": [],
-                                "classes": [
-                                    {
-                                        "classes": "Category"
-                                    }
-                                ],
-                                "pathFormatterClass": "",
-                                "name": "categories",
-                                "title": "categories",
-                                "tooltip": "",
-                                "mandatory": false,
-                                "noteditable": false,
-                                "index": false,
-                                "locked": false,
-                                "style": "",
-                                "permissions": null,
-                                "datatype": "data",
                                 "invisible": false,
                                 "visibleGridView": false,
                                 "visibleSearch": false

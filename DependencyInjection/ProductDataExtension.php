@@ -24,5 +24,8 @@ class ProductDataExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
+
+        new \Twig\Loader\FilesystemLoader(__DIR__.'/../Resources/views');
+
     }
 }

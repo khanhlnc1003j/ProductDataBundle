@@ -1,0 +1,8 @@
+imports:
+    - { resource: base-ecommerce.yaml }
+
+pimcore:
+    documents:
+        editables:
+            map:
+                markdown: Starfruit\ProductDataBundle\Model\Document\Editable\Markdown

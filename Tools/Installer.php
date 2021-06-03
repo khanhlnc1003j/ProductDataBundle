@@ -13,10 +13,11 @@ use Pimcore\Model\DataObject\ClassDefinition\Service;
 use Pimcore\Model\DataObject\Fieldcollection;
 use Pimcore\Model\DataObject\Objectbrick;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-
+use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class Installer extends SettingsStoreAwareInstaller
 {
@@ -31,16 +32,20 @@ class Installer extends SettingsStoreAwareInstaller
      */
     private $classesToInstall = [
             'Product' => 'sf_prd',
-            // 'Category' => 'sf_cate'
+            'Category' => 'sf_cate'
     ];
+
+    private $params;
 
     public function __construct(
         BundleInterface $bundle,
-        ConnectionInterface $connection
+        ConnectionInterface $connection,
+        ParameterBagInterface $params
     ) {
         $this->output = new BufferedOutput(Output::VERBOSITY_NORMAL, true);
         $this->installSourcesPath = __DIR__ . '/../Resources/install';
         $this->bundle = $bundle;
+        $this->params = $params;
         $this->db = $connection;
         if ($this->db instanceof Connection) {
             $this->schema = $this->db->getSchemaManager()->createSchema();
@@ -57,8 +62,11 @@ class Installer extends SettingsStoreAwareInstaller
 
     public function install()
     {
+
+        
         //do your install stuff   
         $this->installClasses();
+        $this->command();
         $this->markInstalled();
         //or call parent::install();     
     }
@@ -69,6 +77,33 @@ class Installer extends SettingsStoreAwareInstaller
 
         $this->markUninstalled();
         //or call parent::uninstall();   
+    }
+
+    private function command(){
+
+        // $processAssets = new Process(explode(' ', 'php '.$this->params->get('kernel.project_dir').'/bin/console assets:install'), null, null, null, 900);
+
+        // $processAssets->run(function ($type, $buffer) {
+        //      $this->output->writeln(
+        //         $buffer
+        //     );
+        // });
+
+        $process = new Process(explode(' ', 'php '.$this->params->get('kernel.project_dir').'/bin/console ecommerce:indexservice:bootstrap --create-or-update-index-structure'), null, null, null, 900);
+
+        $process->run(function ($type, $buffer) {
+             $this->output->writeln(
+                $buffer
+            );
+        });
+
+        $process1 = new Process(explode(' ', 'php '.$this->params->get('kernel.project_dir').'/bin/console ecommerce:indexservice:bootstrap --update-index'), null, null, null, 900);
+
+        $process1->run(function ($type, $buffer) {
+             $this->output->writeln(
+                $buffer
+          );
+        });
     }
 
     private function getClassesToInstall(): array
@@ -103,10 +138,10 @@ class Installer extends SettingsStoreAwareInstaller
             $class = ClassDefinition::getByName($key);
 
             if ($class) {
-                $this->output->write(sprintf(
-                    '     <comment>WARNING:</comment> Skipping class "%s" as it already exists',
-                    $key
-                ));
+                $this->output->writeln(
+                    'WARNING: Skipping class "%s" as it already exists',
+                    
+                );
 
                 continue;
             }
