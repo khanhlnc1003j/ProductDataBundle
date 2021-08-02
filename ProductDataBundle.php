@@ -19,7 +19,8 @@ class ProductDataBundle extends AbstractPimcoreBundle
     {
         return [
             '/bundles/productdata/js/pimcore/startup.js',
-            '/bundles/productdata/js/pimcore/order/OrderTab.js'
+            '/bundles/productdata/js/pimcore/order/OrderTab.js',
+            '/bundles/productdata/js/pimcore/order/VersionPanel.js'
         ];
     }
 

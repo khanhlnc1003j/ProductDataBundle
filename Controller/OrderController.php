@@ -16,6 +16,9 @@ use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\Localizedfield;
 use Pimcore\Model\DataObject\OnlineShopOrder;
 
+use Starfruit\ProductDataBundle\Event\Model\CartEvent;
+use Starfruit\ProductDataBundle\Event\CartEvents;
+use Pimcore\Model\DataObject\ClassDefinition;
 /**
  * Class AdminOrderController
  *
@@ -55,8 +58,19 @@ class OrderController extends AdminController implements KernelControllerEventIn
     public function detailAction(Request $request)
     {
     	$order = OnlineShopOrder::getById($request->get('id'));
-
-        return ['order' => $order];
+        $object = [1];
+        $n = new CartEvent($order);
+        \Pimcore::getEventDispatcher()->dispatch($n, CartEvents::PRE_ADD);
+        $data = ClassDefinition::getById('sf_prd');
+        
+        foreach ($data->getFieldDefinitions() as $key => $value) {
+            $getFunction = "get".ucfirst($key); 
+            // if($value instanceof \Pimcore\Model\DataObject\ClassDefinition\Data\Input){
+                var_dump($getFunction);
+            // }
+            // code...
+        }
+        return ['order' => $order, 'object' => $object,'data'=> $data];
         // return new Response('Hello world from bloqweqweg');
     }
 }

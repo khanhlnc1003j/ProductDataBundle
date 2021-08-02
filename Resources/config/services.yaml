@@ -16,6 +16,7 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    
 
     Starfruit\ProductDataBundle\Tools\Installer:
         public: true

@@ -40,6 +40,7 @@ pimcore_ecommerce_framework:
         tenants:
             default:
 #                 # Assign backend implementations and views to filter type field collections
+                service_id: app.custom_filter_service
                 filter_types:
 #                     FilterInputfield:
 #                         # Service id for filter type implementation
@@ -75,9 +76,9 @@ pimcore_ecommerce_framework:
                     #     filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\MultiSelectRelation
                     #     template: 'product/filters/multi_relation.html.twig'
 
-                    # FilterCategory:
-                    #     filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectCategory
-                    #     template: 'product/filters/select_category.html.twig'
+                    FilterCategory:
+                        filter_type_id: Starfruit\ProductDataBundle\Ecommerce\SelectCategory
+                        template: 'product/filters/select_category.html.twig'
 
 #                     FilterRelation:
 #                         filter_type_id: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterType\SelectRelation
@@ -221,9 +222,13 @@ services:
         autowire: true
         autoconfigure: false
 
+    app.custom_filter_service:
+        class: Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterService
+        arguments:
+            - '@Pimcore\Bundle\EcommerceFrameworkBundle\FilterService\FilterGroupHelper'
 
     # AppBundle\Ecommerce\IndexService\SegmentGetter: ~
-
+    Starfruit\ProductDataBundle\Ecommerce\SelectCategory: ~
 
 #     # define own price system service and configure options for attribute name and price object class
     app.default_price_system:

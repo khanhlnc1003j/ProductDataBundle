@@ -21,19 +21,25 @@ pimcore.plugin.starfruit.productdata.bundle = Class.create(pimcore.plugin.admin,
                     Ext.get('pimcore_menu_mds').removeCls('active');
                 }
             },
-            // items: [{
-            //     text: "Item 1",
-            //     iconCls: "pimcore_icon_apply",
-            //     handler: function () {
-            //         alert("pressed 1");
-            //     }
-            // }, {
-            //     text: "Item 2",
-            //     iconCls: "pimcore_icon_delete",
-            //     handler: function () {
-            //         alert("pressed 2");
-            //     }
-            // }],
+            items: [{
+                text: t('Version'),
+                iconCls: "pimcore_nav_icon_info",
+                handler: function () {
+                    var dataExportMainTab = Ext.get("starfruit_version");
+                    if (dataExportMainTab) {
+                        var tabPanel = Ext.getCmp("pimcore_panel_tabs");
+                        tabPanel.setActiveItem("starfruit_version");
+                    } else {
+                        starfruit_version = new starfruit.bundle.productdata.versionPanel();
+                    }
+                }
+            }, {
+                text: t('Waiting for update!'),
+                iconCls: "pimcore_icon_delete",
+                // handler: function () {
+                    
+                // }
+            }],
             cls: "pimcore_navigation_flyout"
         });
         pimcore.layout.toolbar.prototype.mdsMenu = this.menu;
@@ -41,10 +47,7 @@ pimcore.plugin.starfruit.productdata.bundle = Class.create(pimcore.plugin.admin,
 
     pimcoreReady: function (params, broker) {
         var toolbar = pimcore.globalmanager.get("layout_toolbar");
-        this.navEl.on("mousedown", function(){
-            alert('Waiting for update!');
-            toolbar.showSubMenu.bind(toolbar.mdsMenu);
-        });
+        this.navEl.on("mousedown", toolbar.showSubMenu.bind(toolbar.mdsMenu));
         pimcore.plugin.broker.fireEvent("mdsMenuReady", toolbar.mdsMenu);
     },
 
